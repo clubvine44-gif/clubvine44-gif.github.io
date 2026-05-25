@@ -1,0 +1,10 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+        "namespace": "android_app",
+        "package_name": "com.testoidusha.app",
+        "sha256_cert_fingerprints": [
+            "98:BF:B6:CF:5E:E8:26:60:DA:BF:F1:71:05:31:66:CA:CE:0E:0F:D4:26:41:C6:84:AD:9C:71:DD:6F:47:E1:82"
+        ]
+    }
+}]
