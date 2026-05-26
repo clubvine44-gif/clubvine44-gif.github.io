@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="IRON BARBER — барбершоп в Кисловодске. Онлайн запись, лучшие мастера.">
+<title>IRON BARBER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C9A84C;--gl:#E8C97A;--d:#0A0A0A;--d2:#111;--d3:#1A1A1A;--d4:#222;--w:#F5F0E8;--g:#888;--p:clamp(16px,5vw,60px);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--d);color:var(--w);font-family:'Raleway',sans-serif;overflow-x:hidden;cursor:none;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:var(--gold);}
+.cur,.curR{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+.cur{width:8px;height:8px;background:var(--gold);border-radius:50%;}
+.curR{width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;z-index:9998;opacity:.5;transition:width .2s,height .2s,opacity .2s;}
+.curR.hov{width:50px;height:50px;opacity:1;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:18px var(--p);display:flex;align-items:center;justify-content:space-between;transition:all .3s;}
+nav.sc{background:rgba(10,10,10,.96);backdrop-filter:blur(12px);padding:11px var(--p);border-bottom:1px solid rgba(201,168,76,.12);}
+.nlogo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:6px;color:var(--gold);text-decoration:none;}
+.nlinks{display:flex;gap:28px;list-style:none;align-items:center;}
+.nlinks a{color:var(--w);text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:600;transition:color .3s;position:relative;}
+.nlinks a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s;}
+.nlinks a:hover{color:var(--gold);}.nlinks a:hover::after{width:100%;}
+.ncta{background:var(--gold)!important;color:var(--d)!important;padding:8px 20px;}.ncta::after{display:none!important;}.ncta:hover{background:var(--gl)!important;}
+.burg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.burg span{display:block;width:24px;height:2px;background:var(--w);transition:all .3s;}
+.burg.op span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.burg.op span:nth-child(2){opacity:0;}
+.burg.op span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.mmenu{display:none;position:fixed;inset:0;background:var(--d);z-index:499;flex-direction:column;align-items:center;justify-content:center;gap:24px;}
+.mmenu.op{display:flex;}
+.mmenu a{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,8vw,48px);letter-spacing:4px;color:var(--w);text-decoration:none;transition:color .3s;}
+.mmenu a:hover{color:var(--gold);}
+#hero{min-height:100svh;display:flex;align-items:center;position:relative;overflow:hidden;padding:80px var(--p) 48px;}
+.hbg{position:absolute;inset:0;background:radial-gradient(ellipse at 65% 50%,rgba(201,168,76,.05) 0%,transparent 65%),var(--d);}
+.hgrid{position:absolute;inset:0;background-image:repeating-linear-gradient(90deg,rgba(201,168,76,.025) 0,rgba(201,168,76,.025) 1px,transparent 1px,transparent 80px);}
+.hdeco{position:absolute;right:-10px;top:50%;transform:translateY(-50%) rotate(-15deg);font-size:min(42vw,360px);opacity:.03;line-height:1;user-select:none;animation:flt 10s ease-in-out infinite;}
+@keyframes flt{0%,100%{transform:translateY(-50%) rotate(-15deg);}50%{transform:translateY(-52%) rotate(-15deg);}}
+.hcon{position:relative;z-index:2;width:100%;}
+.htag{display:inline-block;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:5px 14px;margin-bottom:22px;opacity:0;animation:fup .7s .2s forwards;}
+.htit{font-family:'Bebas Neue',sans-serif;font-size:clamp(68px,13vw,155px);line-height:.88;letter-spacing:3px;opacity:0;animation:fup .7s .35s forwards;}
+.htit em{color:var(--gold);font-style:normal;}
+.hsub{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin-top:18px;font-weight:300;opacity:0;animation:fup .7s .5s forwards;}
+.hbtns{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px;opacity:0;animation:fup .7s .65s forwards;}
+.hstats{display:flex;gap:32px;margin-top:40px;opacity:0;animation:fup .7s .8s forwards;}
+.stn{font-family:'Bebas Neue',sans-serif;font-size:38px;color:var(--gold);line-height:1;}
+.stl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin-top:2px;}
+.scrollh{display:flex;align-items:center;gap:10px;margin-top:36px;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--g);opacity:0;animation:fup .7s 1s forwards;}
+.scrollline{width:36px;height:1px;background:var(--gold);}
+@keyframes fup{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
+.bp{background:var(--gold);color:var(--d);padding:13px 30px;font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;transition:background .3s,transform .2s;text-decoration:none;display:inline-block;white-space:nowrap;}
+.bp:hover{background:var(--gl);transform:translateY(-2px);}
+.bo{background:transparent;color:var(--w);padding:13px 30px;font-family:'Raleway',sans-serif;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;border:1px solid rgba(255,255,255,.2);cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;white-space:nowrap;}
+.bo:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px);}
+section{padding:clamp(56px,9vw,112px) var(--p);}
+.stag{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.stitle{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,6vw,76px);letter-spacing:2px;line-height:1;}
+.stitle em{color:var(--gold);font-style:normal;}
+.shead{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:clamp(32px,5vw,64px);}
+#services{background:var(--d2);}
+.svcg{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.svcc{background:var(--d3);padding:clamp(20px,3.5vw,40px) clamp(16px,2.5vw,32px);position:relative;overflow:hidden;transition:background .3s;}
+.svcc::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--gold);transition:width .4s;}
+.svcc:hover{background:var(--d4);}.svcc:hover::after{width:100%;}
+.svnum{font-family:'Bebas Neue',sans-serif;font-size:48px;color:rgba(201,168,76,.1);line-height:1;margin-bottom:12px;}
+.svname{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;margin-bottom:8px;}
+.svdesc{font-size:12px;color:var(--g);line-height:1.7;font-weight:300;margin-bottom:16px;}
+.svprice{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--gold);}
+.svdur{font-size:10px;color:var(--g);letter-spacing:2px;margin-left:6px;}
+#masters{background:var(--d);}
+.mstg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.mstc{background:var(--d3);overflow:hidden;}
+.mstp{width:100%;aspect-ratio:4/3;background:var(--d4);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.msta{font-size:72px;opacity:.12;transition:transform .5s,opacity .3s;}
+.mstc:hover .msta{transform:scale(1.08);opacity:.18;}
+.mstov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 55%);}
+.mstbar{position:absolute;bottom:0;left:0;width:0;height:3px;background:var(--gold);transition:width .5s;}
+.mstc:hover .mstbar{width:100%;}
+.msti{padding:clamp(14px,2.5vw,22px);}
+.mstn{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;margin-bottom:4px;}
+.mstr{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.mste{font-size:11px;color:var(--g);font-weight:300;}
+.mstbtn{display:block;width:100%;margin-top:14px;padding:10px;border:1px solid rgba(201,168,76,.2);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:none;cursor:pointer;transition:all .3s;font-family:'Raleway',sans-serif;}
+.mstbtn:hover{background:var(--gold);color:var(--d);border-color:var(--gold);}
+#gallery{background:var(--d2);}
+.gfilt{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:28px;}
+.fbtn{padding:7px 16px;font-size:9px;letter-spacing:3px;text-transform:uppercase;background:transparent;border:1px solid rgba(255,255,255,.1);color:var(--g);cursor:pointer;transition:all .3s;font-family:'Raleway',sans-serif;}
+.fbtn.on,.fbtn:hover{background:var(--gold);border-color:var(--gold);color:var(--d);}
+.gg{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:170px;gap:4px;}
+.gi{background:var(--d3);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;cursor:pointer;transition:opacity .3s;}
+.gi:nth-child(1){grid-column:span 2;grid-row:span 2;}
+.gi:nth-child(5){grid-column:span 2;}
+.gico{font-size:48px;opacity:.08;transition:transform .4s,opacity .3s;}
+.gi:hover .gico{transform:scale(1.12);opacity:.14;}
+.ghov{position:absolute;inset:0;background:rgba(201,168,76,.07);opacity:0;transition:opacity .3s;display:flex;align-items:center;justify-content:center;}
+.ghov span{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
+.gi:hover .ghov{opacity:1;}
+#loyalty{background:var(--d);}
+.loyi{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);align-items:center;}
+.loyls{display:flex;flex-direction:column;gap:3px;margin-top:28px;}
+.loyl{padding:16px 18px;background:var(--d3);display:flex;align-items:center;justify-content:space-between;gap:10px;border-left:3px solid transparent;transition:all .3s;}
+.loyl:hover{border-color:var(--gold);background:var(--d4);}
+.lvn{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;}
+.lvb{font-size:10px;color:var(--gold);letter-spacing:2px;text-align:right;}
+.lvr{font-size:10px;color:var(--g);}
+.loyc{background:linear-gradient(135deg,var(--d3),var(--d4));border:1px solid rgba(201,168,76,.2);padding:clamp(24px,4vw,40px);position:relative;overflow:hidden;}
+.loyc::before{content:'';position:absolute;top:-40%;right:-20%;width:240px;height:240px;background:radial-gradient(circle,rgba(201,168,76,.07) 0%,transparent 70%);}
+.lclogo{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:6px;color:var(--gold);margin-bottom:28px;}
+.lcpts{font-family:'Bebas Neue',sans-serif;font-size:58px;color:var(--w);line-height:1;margin-bottom:4px;}
+.lcptsl{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin-bottom:24px;}
+.lcbar{height:2px;background:rgba(255,255,255,.1);margin-bottom:6px;}
+.lcfill{height:100%;width:35%;background:var(--gold);}
+.lcbl{display:flex;justify-content:space-between;font-size:9px;color:var(--g);letter-spacing:2px;}
+.lcname{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;margin-top:20px;}
+#contacts{background:var(--d2);}
+.cnti{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);}
+.cntitems{display:flex;flex-direction:column;gap:24px;margin-top:28px;}
+.cntitem{display:flex;gap:14px;align-items:flex-start;}
+.cntico{font-size:18px;opacity:.5;flex-shrink:0;margin-top:2px;}
+.cntlbl{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
+.cntval{font-size:14px;font-weight:300;line-height:1.6;}
+.cntval a{color:var(--w);text-decoration:none;transition:color .3s;}.cntval a:hover{color:var(--gold);}
+.mapph{background:var(--d3);min-height:250px;height:100%;display:flex;align-items:center;justify-content:center;border:1px solid rgba(201,168,76,.1);position:relative;overflow:hidden;}
+.mapph::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(201,168,76,.02) 20px,rgba(201,168,76,.02) 21px);}
+.mappin{font-size:36px;opacity:.3;position:relative;}
+footer{background:var(--d);border-top:1px solid rgba(201,168,76,.1);padding:24px var(--p);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+.flogo{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:6px;color:var(--gold);}
+.fcopy{font-size:10px;color:var(--g);letter-spacing:2px;}
+.fsoc{display:flex;gap:14px;}
+.fsoc a{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--g);text-decoration:none;transition:color .3s;}.fsoc a:hover{color:var(--gold);}
+.rev{opacity:0;transform:translateY(28px);transition:opacity .6s,transform .6s;}
+.rev.vis{opacity:1;transform:none;}
+
+/* BOOKING */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:800;display:none;align-items:center;justify-content:center;padding:12px;backdrop-filter:blur(4px);}
+.ov.op{display:flex;}
+.modal{background:var(--d2);border:1px solid rgba(201,168,76,.14);width:100%;max-width:520px;max-height:90svh;overflow-y:auto;animation:mn .3s ease;}
+@keyframes mn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+.mh{padding:24px 24px 0;display:flex;justify-content:space-between;align-items:flex-start;}
+.mttl{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;}
+.mttl em{color:var(--gold);font-style:normal;}
+.mclose{background:none;border:none;color:var(--g);font-size:20px;cursor:pointer;transition:color .3s;line-height:1;padding:4px;}.mclose:hover{color:var(--w);}
+.mb{padding:20px 24px 28px;}
+.dots{display:flex;gap:6px;margin-bottom:24px;}
+.dot{height:2px;flex:1;background:rgba(255,255,255,.1);transition:background .3s;}.dot.on{background:var(--gold);}
+.step{display:none;}.step.on{display:block;}
+.slbl{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
+.mg2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.mopt{padding:12px;background:var(--d3);border:1px solid transparent;cursor:pointer;transition:all .3s;text-align:left;}
+.mopt:hover{border-color:rgba(201,168,76,.3);}.mopt.sel{border-color:var(--gold);background:var(--d4);}
+.moname{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;margin-bottom:2px;}
+.morole{font-size:9px;color:var(--gold);letter-spacing:2px;}
+.svlist{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+.svopt{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--d3);border:1px solid transparent;cursor:pointer;transition:all .3s;}
+.svopt:hover{border-color:rgba(201,168,76,.3);}.svopt.sel{border-color:var(--gold);}
+.svoname{font-size:12px;font-weight:600;}.svoprice{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--gold);}
+.dg{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:12px;}
+.dbtn{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--d3);border:1px solid transparent;cursor:pointer;transition:all .3s;font-family:'Raleway',sans-serif;}
+.dbtn:hover{border-color:rgba(201,168,76,.3);}.dbtn.sel{border-color:var(--gold);background:var(--d4);}.dbtn.dis{opacity:.25;cursor:not-allowed;pointer-events:none;}
+.dday{font-size:7px;color:var(--g);letter-spacing:1px;text-transform:uppercase;}.dnum{font-family:'Bebas Neue',sans-serif;font-size:16px;}
+.tg{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:16px;}
+.tbtn{padding:10px 3px;background:var(--d3);border:1px solid transparent;color:var(--w);font-size:11px;font-family:'Raleway',sans-serif;cursor:pointer;transition:all .3s;text-align:center;}
+.tbtn:hover{border-color:rgba(201,168,76,.3);}.tbtn.sel{border-color:var(--gold);color:var(--gold);background:var(--d4);}.tbtn.busy{opacity:.22;cursor:not-allowed;pointer-events:none;text-decoration:line-through;}
+.fg{margin-bottom:14px;}
+.fl{display:block;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin-bottom:5px;}
+.fi{width:100%;background:var(--d3);border:1px solid rgba(255,255,255,.08);color:var(--w);padding:11px 14px;font-family:'Raleway',sans-serif;font-size:13px;transition:border-color .3s;outline:none;}
+.fi:focus{border-color:var(--gold);}
+.msum{background:var(--d3);padding:16px 18px;margin-bottom:16px;border-left:2px solid var(--gold);}
+.sumrow{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:11px;}
+.sumrow:not(:last-child){border-bottom:1px solid rgba(255,255,255,.05);}
+.sumlbl{color:var(--g);}.sumval{font-weight:600;}
+.sumtot .sumval{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);}
+.snav{display:flex;gap:8px;margin-top:4px;}
+.mnext,.mprev,.mconf{flex:1;padding:13px;font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;transition:all .3s;}
+.mnext,.mconf{background:var(--gold);color:var(--d);}.mnext:hover,.mconf:hover{background:var(--gl);}
+.mprev{background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--w);}.mprev:hover{border-color:var(--gold);color:var(--gold);}
+.msuc{text-align:center;padding:12px 0;}
+.suci{font-size:52px;margin-bottom:16px;animation:pop .5s ease;}
+@keyframes pop{0%{transform:scale(0);}70%{transform:scale(1.2);}100%{transform:scale(1);}}
+.sucttl{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;color:var(--gold);margin-bottom:8px;}
+.suctxt{font-size:12px;color:var(--g);line-height:1.8;}
+
+/* ADMIN */
+.adov{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:900;display:none;backdrop-filter:blur(6px);}
+.adov.op{display:flex;}
+.adpanel{width:100%;max-width:880px;height:100svh;margin:auto;background:var(--d2);display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(201,168,76,.1);}
+.adtop{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,168,76,.1);flex-shrink:0;}
+.adlogo{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:4px;color:var(--gold);}
+.adlogo span{color:var(--w);font-size:11px;letter-spacing:3px;margin-left:10px;opacity:.4;}
+.adcls{background:none;border:none;color:var(--g);font-size:18px;cursor:pointer;transition:color .3s;}.adcls:hover{color:var(--w);}
+.adnav{display:flex;border-bottom:1px solid rgba(255,255,255,.05);flex-shrink:0;overflow-x:auto;}
+.adtab{padding:11px 16px;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--g);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;transition:all .3s;white-space:nowrap;font-family:'Raleway',sans-serif;}
+.adtab.on{color:var(--gold);border-bottom-color:var(--gold);}
+.adbody{flex:1;overflow-y:auto;padding:20px;}
+.adlogin{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;text-align:center;}
+.adlogin h2{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;color:var(--gold);}
+.adlogin p{font-size:11px;color:var(--g);}
+.adpage{display:none;}.adpage.on{display:block;}
+.stcards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
+.stcard{background:var(--d3);padding:16px;border-left:2px solid var(--gold);}
+.scv{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--gold);line-height:1;}
+.scl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin-top:3px;}
+.scd{font-size:10px;color:#4ade80;margin-top:3px;}
+.adsect{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;margin-bottom:14px;color:var(--w);}
+.bklist{display:flex;flex-direction:column;gap:6px;}
+.bki{background:var(--d3);padding:14px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.bktime{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);min-width:52px;}
+.bkinfo{flex:1;min-width:120px;}
+.bkclient{font-size:13px;font-weight:600;}.bkdetail{font-size:10px;color:var(--g);margin-top:1px;}
+.bkmaster{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.bkprice{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--w);}
+.bkst{padding:3px 8px;font-size:8px;letter-spacing:2px;text-transform:uppercase;}
+.bkst.ok{background:rgba(74,222,128,.1);color:#4ade80;}
+.bkst.pend{background:rgba(201,168,76,.1);color:var(--gold);}
+.bkst.no{background:rgba(248,113,113,.1);color:#f87171;}
+.bkdel{background:none;border:1px solid rgba(248,113,113,.3);color:#f87171;padding:4px 10px;font-size:9px;letter-spacing:2px;cursor:pointer;transition:all .3s;font-family:'Raleway',sans-serif;}
+.bkdel:hover{background:rgba(248,113,113,.1);}
+.schg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.schm{background:var(--d3);padding:14px;}
+.schmn{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;margin-bottom:10px;color:var(--gold);}
+.schsl{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.schst{padding:6px 3px;background:var(--d4);text-align:center;font-size:10px;cursor:pointer;border:1px solid transparent;transition:all .3s;user-select:none;}
+.schst.open{color:var(--w);}.schst.open:hover{border-color:rgba(201,168,76,.4);}
+.schst.closed{background:rgba(248,113,113,.07);color:rgba(248,113,113,.5);text-decoration:line-through;}
+.schst.booked{background:rgba(201,168,76,.1);color:var(--gold);cursor:default;}
+.svceditor{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+.svcedr{background:var(--d3);padding:12px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.svcedname{flex:1;font-size:12px;font-weight:600;min-width:100px;}
+.svcedinp{background:var(--d4);border:1px solid rgba(255,255,255,.08);color:var(--w);padding:6px 8px;font-family:'Raleway',sans-serif;font-size:12px;width:80px;outline:none;transition:border-color .3s;}
+.svcedinp:focus{border-color:var(--gold);}
+.svcedlbl{font-size:8px;letter-spacing:2px;color:var(--g);}
+.adsave{background:var(--gold);color:var(--d);padding:9px 22px;border:none;font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:background .3s;margin-top:6px;}
+.adsave:hover{background:var(--gl);}
+.cllist{display:flex;flex-direction:column;gap:5px;}
+.clrow{background:var(--d3);padding:12px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.clname{font-size:13px;font-weight:600;min-width:110px;}
+.clphone{font-size:11px;color:var(--g);flex:1;}
+.clvisits{font-size:9px;letter-spacing:2px;color:var(--gold);}
+.clpts{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);}
+.cllevel{padding:3px 8px;font-size:8px;letter-spacing:2px;background:rgba(201,168,76,.1);color:var(--gold);}
+
+@media(max-width:768px){
+  body{cursor:auto;}.cur,.curR{display:none;}
+  nav{padding:12px 16px;}nav.sc{padding:8px 16px;}
+  .nlinks{display:none;}.burg{display:flex;}
+  #hero{padding:64px 16px 36px;}
+  .hdeco{font-size:52vw;}
+  .hstats{gap:20px;}.stn{font-size:30px;}
+  section{padding:48px 16px;}
+  .svcg{grid-template-columns:1fr;}
+  .mstg{grid-template-columns:1fr;}
+  .mstp{aspect-ratio:16/9;}.msta{font-size:60px;}
+  .gg{grid-template-columns:repeat(2,1fr);grid-auto-rows:120px;}
+  .gi:nth-child(1){grid-column:span 2;grid-row:span 1;}
+  .gi:nth-child(5){grid-column:span 1;}
+  .loyi{grid-template-columns:1fr;}
+  .cnti{grid-template-columns:1fr;}.mapph{min-height:180px;}
+  footer{padding:18px 16px;}
+  .mh{padding:16px 16px 0;}.mb{padding:14px 16px 20px;}
+  .mttl{font-size:22px;}.mg2{grid-template-columns:1fr;}
+  .dg{grid-template-columns:repeat(4,1fr);}
+  .tg{grid-template-columns:repeat(3,1fr);}
+  .adpanel{max-width:100%;border:none;}
+  .stcards{grid-template-columns:repeat(2,1fr);}
+  .schg{grid-template-columns:1fr;}
+  .adbody{padding:14px;}
+  .shead{flex-direction:column;align-items:flex-start;}
+}
+@media(max-width:380px){
+  .htit{font-size:60px;}
+  .hbtns{flex-direction:column;}
+  .bp,.bo{text-align:center;width:100%;}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="curR" id="curR"></div>
+
+<nav id="nav">
+  <a href="#hero" class="nlogo">IRON BARBER</a>
+  <ul class="nlinks">
+    <li><a href="#services">Услуги</a></li>
+    <li><a href="#masters">Мастера</a></li>
+    <li><a href="#gallery">Галерея</a></li>
+    <li><a href="#loyalty">Бонусы</a></li>
+    <li><a href="#contacts">Контакты</a></li>
+    <li><a href="#" class="ncta" onclick="openBook();return false;">Записаться</a></li>
+  </ul>
+  <div class="burg" id="burg"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mmenu" id="mmenu">
+  <a href="#services" onclick="closeMob()">Услуги</a>
+  <a href="#masters" onclick="closeMob()">Мастера</a>
+  <a href="#gallery" onclick="closeMob()">Галерея</a>
+  <a href="#loyalty" onclick="closeMob()">Бонусы</a>
+  <a href="#contacts" onclick="closeMob()">Контакты</a>
+  <a href="#" onclick="closeMob();openBook();">Записаться</a>
+  <a href="#" onclick="closeMob();openAdmin();" style="font-size:20px;letter-spacing:3px;color:rgba(201,168,76,.6);margin-top:16px;border:1px solid rgba(201,168,76,.25);padding:10px 24px;">⚙ ВЛАДЕЛЕЦ</a>
+</div>
+
+<section id="hero">
+  <div class="hbg"></div><div class="hgrid"></div><div class="hdeco">✂</div>
+  <div class="hcon">
+    <div class="htag">Барбершоп · Кисловодск</div>
+    <h1 class="htit">IRON<br><em>BARBER</em></h1>
+    <p class="hsub">Искусство мужского стиля</p>
+    <div class="hbtns">
+      <a href="#" class="bp" onclick="openBook();return false;">Записаться онлайн</a>
+      <a href="#services" class="bo">Наши услуги</a>
+    </div>
+    <div class="hstats">
+      <div><div class="stn">5</div><div class="stl">Мастеров</div></div>
+      <div><div class="stn">3+</div><div class="stl">Лет работы</div></div>
+      <div><div class="stn">2К+</div><div class="stl">Клиентов</div></div>
+    </div>
+    <div class="scrollh"><div class="scrollline"></div><span>Прокрутите</span></div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="shead rev">
+    <div><div class="stag">— Прайс-лист</div><h2 class="stitle">НАШИ <em>УСЛУГИ</em></h2></div>
+    <a href="#" class="bo" onclick="openBook();return false;">Записаться</a>
+  </div>
+  <div class="svcg">
+    <div class="svcc rev"><div class="svnum">01</div><div class="svname">КЛАССИЧЕСКАЯ СТРИЖКА</div><div class="svdesc">Чёткие линии, идеальный контур под ваш тип лица. Горячее полотенце в подарок.</div><div><span class="svprice">от 800 ₽</span><span class="svdur">/ 45 мин</span></div></div>
+    <div class="svcc rev"><div class="svnum">02</div><div class="svname">СТРИЖКА + БОРОДА</div><div class="svdesc">Комплекс: стрижка, моделирование бороды, горячее бритьё опасной бритвой.</div><div><span class="svprice">от 1400 ₽</span><span class="svdur">/ 80 мин</span></div></div>
+    <div class="svcc rev"><div class="svnum">03</div><div class="svname">МОДЕЛИРОВАНИЕ БОРОДЫ</div><div class="svdesc">Чёткий контур, идеальная форма. Укладка воском и финишная обработка маслом.</div><div><span class="svprice">от 600 ₽</span><span class="svdur">/ 35 мин</span></div></div>
+    <div class="svcc rev"><div class="svnum">04</div><div class="svname">ДЕТСКАЯ СТРИЖКА</div><div class="svdesc">Аккуратно и быстро. Работаем даже с самыми непоседливыми.</div><div><span class="svprice">от 600 ₽</span><span class="svdur">/ 30 мин</span></div></div>
+    <div class="svcc rev"><div class="svnum">05</div><div class="svname">ОПАСНОЕ БРИТЬЁ</div><div class="svdesc">Традиционное бритьё с горячим компрессом, пеной и финишным кремом.</div><div><span class="svprice">от 700 ₽</span><span class="svdur">/ 40 мин</span></div></div>
+    <div class="svcc rev"><div class="svnum">06</div><div class="svname">VIP КОМПЛЕКС</div><div class="svdesc">Всё включено: стрижка, борода, бритьё, маска, массаж головы.</div><div><span class="svprice">от 2200 ₽</span><span class="svdur">/ 120 мин</span></div></div>
+  </div>
+</section>
+
+<section id="masters">
+  <div class="shead rev">
+    <div><div class="stag">— Команда</div><h2 class="stitle">НАШИ <em>МАСТЕРА</em></h2></div>
+  </div>
+  <div class="mstg">
+    <div class="mstc rev"><div class="mstp"><div class="msta">💈</div><div class="mstov"></div><div class="mstbar"></div></div><div class="msti"><div class="mstn">АЛЕКСЕЙ</div><div class="mstr">Старший мастер</div><div class="mste">7 лет · Фейды, классика, текстуры</div><button class="mstbtn" onclick="openBook('Алексей')">Записаться к мастеру</button></div></div>
+    <div class="mstc rev"><div class="mstp"><div class="msta">✂️</div><div class="mstov"></div><div class="mstbar"></div></div><div class="msti"><div class="mstn">ДМИТРИЙ</div><div class="mstr">Барбер</div><div class="mste">5 лет · Борода и текстурные стрижки</div><button class="mstbtn" onclick="openBook('Дмитрий')">Записаться к мастеру</button></div></div>
+    <div class="mstc rev"><div class="mstp"><div class="msta">🪒</div><div class="mstov"></div><div class="mstbar"></div></div><div class="msti"><div class="mstn">МАКСИМ</div><div class="mstr">Барбер</div><div class="mste">4 года · Опасное бритьё и уход</div><button class="mstbtn" onclick="openBook('Максим')">Записаться к мастеру</button></div></div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="shead rev">
+    <div><div class="stag">— Портфолио</div><h2 class="stitle">НАШИ <em>РАБОТЫ</em></h2></div>
+  </div>
+  <div class="gfilt rev">
+    <button class="fbtn on" onclick="gf(this,'all')">Все</button>
+    <button class="fbtn" onclick="gf(this,'cut')">Стрижки</button>
+    <button class="fbtn" onclick="gf(this,'beard')">Борода</button>
+    <button class="fbtn" onclick="gf(this,'shave')">Бритьё</button>
+  </div>
+  <div class="gg rev">
+    <div class="gi" data-c="cut"><div class="gico">💈</div><div class="ghov"><span>Фейд</span></div></div>
+    <div class="gi" data-c="beard"><div class="gico">🧔</div><div class="ghov"><span>Борода</span></div></div>
+    <div class="gi" data-c="cut"><div class="gico">✂️</div><div class="ghov"><span>Классика</span></div></div>
+    <div class="gi" data-c="shave"><div class="gico">🪒</div><div class="ghov"><span>Бритьё</span></div></div>
+    <div class="gi" data-c="cut"><div class="gico">💇</div><div class="ghov"><span>Текстура</span></div></div>
+    <div class="gi" data-c="beard"><div class="gico">🎨</div><div class="ghov"><span>Моделирование</span></div></div>
+    <div class="gi" data-c="shave"><div class="gico">🪖</div><div class="ghov"><span>Контур</span></div></div>
+    <div class="gi" data-c="cut"><div class="gico">⚡</div><div class="ghov"><span>Андеркат</span></div></div>
+  </div>
+</section>
+
+<section id="loyalty">
+  <div class="loyi">
+    <div class="rev">
+      <div class="stag">— Программа лояльности</div>
+      <h2 class="stitle">БОНУСНАЯ <em>КАРТА</em></h2>
+      <p style="margin-top:14px;color:var(--g);font-size:12px;line-height:1.8;font-weight:300;">За каждый визит — баллы. Баллы — скидки. Чем чаще приходишь, тем выгоднее.</p>
+      <div class="loyls">
+        <div class="loyl"><div><div class="lvn">BRONZE</div><div class="lvr">0–1000 баллов</div></div><div class="lvb">+5% с визита</div></div>
+        <div class="loyl"><div><div class="lvn">SILVER</div><div class="lvr">1000–3000 баллов</div></div><div class="lvb">+8% · Приоритет</div></div>
+        <div class="loyl"><div><div class="lvn" style="color:var(--gold)">GOLD</div><div class="lvr">3000+ баллов</div></div><div class="lvb">+12% · VIP</div></div>
+      </div>
+    </div>
+    <div class="rev">
+      <div class="loyc"><div class="lclogo">IRON BARBER</div><div class="lcpts">350</div><div class="lcptsl">Ваши баллы</div><div class="lcbar"><div class="lcfill"></div></div><div class="lcbl"><span>Bronze</span><span>650 до Silver</span></div><div class="lcname">ИВАН ПЕТРОВ</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="contacts">
+  <div class="cnti">
+    <div class="rev">
+      <div class="stag">— Контакты</div>
+      <h2 class="stitle">КАК НАС <em>НАЙТИ</em></h2>
+      <div class="cntitems">
+        <div class="cntitem"><div class="cntico">📍</div><div><div class="cntlbl">Адрес</div><div class="cntval">г. Кисловодск, ул. Куйбышева, 1</div></div></div>
+        <div class="cntitem"><div class="cntico">📞</div><div><div class="cntlbl">Телефон</div><div class="cntval"><a href="tel:+78793000000">+7 (879) 300-00-00</a></div></div></div>
+        <div class="cntitem"><div class="cntico">🕐</div><div><div class="cntlbl">Режим работы</div><div class="cntval">Пн–Сб: 10:00–21:00<br>Вс: 11:00–19:00</div></div></div>
+        <div class="cntitem"><div class="cntico">💬</div><div><div class="cntlbl">Соцсети</div><div class="cntval"><a href="#">ВКонтакте</a> · <a href="#">Telegram</a> · <a href="#">Instagram</a></div></div></div>
+      </div>
+    </div>
+    <div class="rev"><div class="mapph"><div class="mappin">📍</div></div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="flogo">IRON BARBER</div>
+  <div class="fcopy">© 2024 IRON BARBER</div>
+  <div class="fsoc"><a href="#">VK</a><a href="#">TG</a><a href="#">WA</a></div>
+</footer>
+<div style="text-align:center;padding:16px;background:var(--d);border-top:1px solid rgba(255,255,255,.04);">
+  <button onclick="openAdmin()" style="background:none;border:1px solid rgba(201,168,76,.25);color:rgba(201,168,76,.6);font-size:9px;letter-spacing:3px;cursor:pointer;font-family:'Raleway',sans-serif;padding:8px 20px;transition:all .3s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)';" onmouseout="this.style.borderColor='rgba(201,168,76,.25)';this.style.color='rgba(201,168,76,.6)';">⚙ ПАНЕЛЬ ВЛАДЕЛЬЦА
+
+<!-- BOOKING MODAL -->
+<div class="ov" id="bookOv">
+  <div class="modal">
+    <div class="mh"><div class="mttl">ОНЛАЙН <em>ЗАПИСЬ</em></div><button class="mclose" onclick="closeBook()">✕</button></div>
+    <div class="mb">
+      <div class="dots"><div class="dot on" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div><div class="dot" id="d4"></div></div>
+      <div class="step on" id="s1">
+        <div class="slbl">Шаг 1 из 4 — Мастер</div>
+        <div class="mg2">
+          <div class="mopt" onclick="pm(this,'Алексей')"><div class="moname">АЛЕКСЕЙ</div><div class="morole">Старший мастер</div></div>
+          <div class="mopt" onclick="pm(this,'Дмитрий')"><div class="moname">ДМИТРИЙ</div><div class="morole">Барбер</div></div>
+          <div class="mopt" onclick="pm(this,'Максим')"><div class="moname">МАКСИМ</div><div class="morole">Барбер</div></div>
+          <div class="mopt" onclick="pm(this,'Любой')"><div class="moname">ЛЮБОЙ</div><div class="morole">Свободный</div></div>
+        </div>
+        <div class="snav"><button class="mnext" onclick="gs(2)">Далее →</button></div>
+      </div>
+      <div class="step" id="s2">
+        <div class="slbl">Шаг 2 из 4 — Услуга</div>
+        <div class="svlist">
+          <div class="svopt" onclick="pv(this,'Классическая стрижка',800)"><span class="svoname">Классическая стрижка</span><span class="svoprice">800 ₽</span></div>
+          <div class="svopt" onclick="pv(this,'Стрижка + борода',1400)"><span class="svoname">Стрижка + борода</span><span class="svoprice">1400 ₽</span></div>
+          <div class="svopt" onclick="pv(this,'Моделирование бороды',600)"><span class="svoname">Моделирование бороды</span><span class="svoprice">600 ₽</span></div>
+          <div class="svopt" onclick="pv(this,'Опасное бритьё',700)"><span class="svoname">Опасное бритьё</span><span class="svoprice">700 ₽</span></div>
+          <div class="svopt" onclick="pv(this,'Детская стрижка',600)"><span class="svoname">Детская стрижка</span><span class="svoprice">600 ₽</span></div>
+          <div class="svopt" onclick="pv(this,'VIP комплекс',2200)"><span class="svoname">VIP комплекс</span><span class="svoprice">2200 ₽</span></div>
+        </div>
+        <div class="snav"><button class="mprev" onclick="gs(1)">← Назад</button><button class="mnext" onclick="gs(3)">Далее →</button></div>
+      </div>
+      <div class="step" id="s3">
+        <div class="slbl">Шаг 3 из 4 — Дата и время</div>
+        <div class="dg" id="dg"></div>
+        <div class="tg" id="tg"></div>
+        <div class="snav"><button class="mprev" onclick="gs(2)">← Назад</button><button class="mnext" onclick="gs(4)">Далее →</button></div>
+      </div>
+      <div class="step" id="s4">
+        <div class="slbl">Шаг 4 из 4 — Ваши данные</div>
+        <div class="fg"><label class="fl">Ваше имя</label><input class="fi" id="cn" placeholder="Иван Петров"></div>
+        <div class="fg"><label class="fl">Телефон</label><input class="fi" id="cp" type="tel" placeholder="+7 (___) ___-__-__"></div>
+        <div class="msum" id="msum"></div>
+        <div class="snav"><button class="mprev" onclick="gs(3)">← Назад</button><button class="mconf" onclick="cb()">Подтвердить запись</button></div>
+      </div>
+      <div class="step" id="sok">
+        <div class="msuc"><div class="suci">✅</div><div class="sucttl">ЗАПИСАН!</div><p class="suctxt">Запись принята.<br>Напомним за день до визита.<br><br>До встречи в IRON BARBER!</p><button class="bp" style="margin-top:24px;" onclick="closeBook()">Закрыть</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="adov" id="adOv">
+  <div class="adpanel">
+    <div class="adtop"><div class="adlogo">IRON BARBER <span>ADMIN</span></div><button class="adcls" onclick="closeAdmin()">✕</button></div>
+    <div id="adLogin" class="adbody adlogin">
+      <div style="font-size:40px;">💈</div>
+      <h2>ПАНЕЛЬ ВЛАДЕЛЬЦА</h2>
+      <p>Введите пароль для входа</p>
+      <div class="fg" style="width:100%;max-width:280px;"><label class="fl">Пароль</label><input class="fi" id="adp" type="password" placeholder="••••••" onkeydown="if(event.key==='Enter')adLogin()"></div>
+      <button class="adsave" onclick="adLogin()">ВОЙТИ</button>
+    </div>
+    <div id="adDash" style="display:none;flex-direction:column;height:calc(100% - 50px);overflow:hidden;">
+      <div class="adnav">
+        <button class="adtab on" onclick="aTab(this,'tp1')">📊 Статистика</button>
+        <button class="adtab" onclick="aTab(this,'tp2')">📅 Записи</button>
+        <button class="adtab" onclick="aTab(this,'tp3')">🕐 Расписание</button>
+        <button class="adtab" onclick="aTab(this,'tp4')">✂️ Услуги</button>
+        <button class="adtab" onclick="aTab(this,'tp5')">👥 Клиенты</button>
+      </div>
+      <div class="adbody">
+        <div class="adpage on" id="tp1">
+          <div class="stcards">
+            <div class="stcard"><div class="scv">12</div><div class="scl">Записей сегодня</div><div class="scd">↑ +3 вчера</div></div>
+            <div class="stcard"><div class="scv">14 200 ₽</div><div class="scl">Выручка сегодня</div><div class="scd">↑ +12%</div></div>
+            <div class="stcard"><div class="scv">87</div><div class="scl">Визитов за месяц</div><div class="scd">↑ +8 vs пр.мес.</div></div>
+            <div class="stcard"><div class="scv">94 800 ₽</div><div class="scl">Выручка за месяц</div><div class="scd">↑ +18%</div></div>
+          </div>
+          <div class="adsect">Записи сегодня — <span style="color:var(--gold)" id="td"></span></div>
+          <div class="bklist" id="tbl"></div>
+        </div>
+        <div class="adpage" id="tp2">
+          <div class="adsect">Записи на неделю</div>
+          <div class="bklist" id="wkl"></div>
+        </div>
+        <div class="adpage" id="tp3">
+          <div class="adsect">Расписание мастеров</div>
+          <p style="font-size:11px;color:var(--g);margin-bottom:16px;">Нажмите слот — закрыть/открыть. Золотой = занято клиентом.</p>
+          <div class="schg" id="schg"></div>
+        </div>
+        <div class="adpage" id="tp4">
+          <div class="adsect">Услуги и цены</div>
+          <div class="svceditor" id="sved"></div>
+          <button class="adsave" onclick="saveSv()">СОХРАНИТЬ</button>
+          <p id="svok" style="color:#4ade80;font-size:10px;letter-spacing:2px;margin-top:8px;display:none;">✓ Сохранено</p>
+        </div>
+        <div class="adpage" id="tp5">
+          <div class="adsect">База клиентов</div>
+          <div class="cllist" id="cll"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// CURSOR
+const C=document.getElementById('cur'),CR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function a(){C.style.left=mx+'px';C.style.top=my+'px';rx+=(mx-rx)*.1;ry+=(my-ry)*.1;CR.style.left=rx+'px';CR.style.top=ry+'px';requestAnimationFrame(a);})();
+document.querySelectorAll('a,button,.svcc,.mstc,.gi,.mopt,.svopt,.dbtn,.tbtn,.fbtn,.loyl,.schst').forEach(el=>{
+  el.addEventListener('mouseenter',()=>CR.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>CR.classList.remove('hov'));
+});
+
+// NAV
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('sc',scrollY>50));
+document.getElementById('burg').onclick=()=>{document.getElementById('burg').classList.toggle('op');document.getElementById('mmenu').classList.toggle('op');};
+function closeMob(){document.getElementById('burg').classList.remove('op');document.getElementById('mmenu').classList.remove('op');}
+
+// REVEAL
+document.querySelectorAll('.rev').forEach(el=>new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');}),{threshold:.08}).observe(el));
+
+// GALLERY
+function gf(btn,cat){
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  document.querySelectorAll('.gi').forEach(i=>i.style.opacity=(cat==='all'||i.dataset.c===cat)?'1':'0.15');
+}
+
+// BOOKING
+let bk={m:'',s:'',p:0,d:'',t:''};
+function openBook(m=''){
+  document.getElementById('bookOv').classList.add('op');document.body.style.overflow='hidden';
+  rDates();
+  if(m)setTimeout(()=>document.querySelectorAll('.mopt').forEach(o=>{if(o.querySelector('.moname').textContent===m)o.click();}),80);
+}
+function closeBook(){document.getElementById('bookOv').classList.remove('op');document.body.style.overflow='';resetBook();}
+function resetBook(){
+  bk={m:'',s:'',p:0,d:'',t:''};
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('on'));
+  document.getElementById('s1').classList.add('on');
+  document.querySelectorAll('.mopt,.svopt').forEach(o=>o.classList.remove('sel'));
+  [1,2,3,4].forEach(i=>{const d=document.getElementById('d'+i);if(d)d.classList.toggle('on',i===1);});
+}
+function gs(n){
+  if(n===2&&!bk.m){alert('Выберите мастера');return;}
+  if(n===3&&!bk.s){alert('Выберите услугу');return;}
+  if(n===4&&(!bk.d||!bk.t)){alert('Выберите дату и время');return;}
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('on'));
+  document.getElementById('s'+n).classList.add('on');
+  [1,2,3,4].forEach(i=>{const d=document.getElementById('d'+i);if(d)d.classList.toggle('on',i<=n);});
+  if(n===4)rSum();
+}
+function pm(el,n){document.querySelectorAll('.mopt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');bk.m=n;}
+function pv(el,n,p){document.querySelectorAll('.svopt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');bk.s=n;bk.p=p;}
+function rDates(){
+  const g=document.getElementById('dg'),days=['ВС','ПН','ВТ','СР','ЧТ','ПТ','СБ'],today=new Date();g.innerHTML='';
+  for(let i=0;i<14;i++){
+    const d=new Date(today);d.setDate(today.getDate()+i);
+    const btn=document.createElement('button');btn.className='dbtn'+(i===0?' dis':'');
+    const ds=d.toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'});
+    btn.innerHTML='<span class="dday">'+days[d.getDay()]+'</span><span class="dnum">'+d.getDate()+'</span>';
+    if(i>0)btn.onclick=()=>{document.querySelectorAll('.dbtn').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');bk.d=ds;bk.t='';rTimes();};
+    g.appendChild(btn);
+  }
+  rTimes();
+}
+function rTimes(){
+  const g=document.getElementById('tg'),ts=['10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30'],busy=['11:00','13:30','15:00','18:00'];
+  g.innerHTML='';
+  ts.forEach(t=>{const btn=document.createElement('button');btn.className='tbtn'+(busy.includes(t)?' busy':'');btn.textContent=t;if(!busy.includes(t))btn.onclick=()=>{document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');bk.t=t;};g.appendChild(btn);});
+}
+function rSum(){document.getElementById('msum').innerHTML='<div class="sumrow"><span class="sumlbl">Мастер</span><span class="sumval">'+bk.m+'</span></div><div class="sumrow"><span class="sumlbl">Услуга</span><span class="sumval">'+bk.s+'</span></div><div class="sumrow"><span class="sumlbl">Дата</span><span class="sumval">'+bk.d+'</span></div><div class="sumrow"><span class="sumlbl">Время</span><span class="sumval">'+bk.t+'</span></div><div class="sumrow sumtot"><span class="sumlbl">Стоимость</span><span class="sumval">'+bk.p+' ₽</span></div>';}
+function cb(){if(!document.getElementById('cn').value.trim()||!document.getElementById('cp').value.trim()){alert('Введите имя и телефон');return;}document.querySelectorAll('.step').forEach(s=>s.classList.remove('on'));document.getElementById('sok').classList.add('on');}
+document.getElementById('bookOv').onclick=e=>{if(e.target===document.getElementById('bookOv'))closeBook();};
+
+// ADMIN
+const PASS='iron2024';
+function openAdmin(){document.getElementById('adOv').classList.add('op');document.body.style.overflow='hidden';}
+function closeAdmin(){document.getElementById('adOv').classList.remove('op');document.body.style.overflow='';}
+function adLogin(){
+  if(document.getElementById('adp').value===PASS){
+    document.getElementById('adLogin').style.display='none';
+    document.getElementById('adDash').style.display='flex';
+    initAd();
+  }else{const i=document.getElementById('adp');i.style.borderColor='#f87171';i.value='';setTimeout(()=>i.style.borderColor='',1000);}
+}
+function aTab(btn,pid){
+  document.querySelectorAll('.adtab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');
+  document.querySelectorAll('.adpage').forEach(p=>p.classList.remove('on'));
+  document.getElementById(pid).classList.add('on');
+}
+const mBk=[
+  {t:'10:00',cl:'Дмитрий Соколов',ph:'+7 928 111-22-33',sv:'Стрижка + борода',ms:'Алексей',pr:1400,st:'ok'},
+  {t:'10:30',cl:'Андрей Петров',ph:'+7 928 222-33-44',sv:'Классическая стрижка',ms:'Дмитрий',pr:800,st:'ok'},
+  {t:'11:00',cl:'Игорь Иванов',ph:'+7 928 333-44-55',sv:'VIP комплекс',ms:'Алексей',pr:2200,st:'pend'},
+  {t:'12:00',cl:'Сергей Козлов',ph:'+7 928 444-55-66',sv:'Моделирование бороды',ms:'Максим',pr:600,st:'ok'},
+  {t:'13:30',cl:'Михаил Новиков',ph:'+7 928 555-66-77',sv:'Опасное бритьё',ms:'Дмитрий',pr:700,st:'no'},
+  {t:'14:00',cl:'Алексей Морозов',ph:'+7 928 666-77-88',sv:'Классическая стрижка',ms:'Максим',pr:800,st:'ok'},
+  {t:'15:30',cl:'Николай Волков',ph:'+7 928 777-88-99',sv:'Детская стрижка',ms:'Алексей',pr:600,st:'pend'},
+];
+const mCl=[
+  {n:'Дмитрий Соколов',p:'+7 928 111-22-33',v:12,pts:1450,lv:'SILVER'},
+  {n:'Андрей Петров',p:'+7 928 222-33-44',v:8,pts:890,lv:'BRONZE'},
+  {n:'Игорь Иванов',p:'+7 928 333-44-55',v:24,pts:3200,lv:'GOLD'},
+  {n:'Сергей Козлов',p:'+7 928 444-55-66',v:5,pts:520,lv:'BRONZE'},
+  {n:'Михаил Новиков',p:'+7 928 555-66-77',v:16,pts:1800,lv:'SILVER'},
+  {n:'Алексей Морозов',p:'+7 928 666-77-88',v:31,pts:4100,lv:'GOLD'},
+];
+let svcs=[{n:'Классическая стрижка',p:800,d:45},{n:'Стрижка + борода',p:1400,d:80},{n:'Моделирование бороды',p:600,d:35},{n:'Детская стрижка',p:600,d:30},{n:'Опасное бритьё',p:700,d:40},{n:'VIP комплекс',p:2200,d:120}];
+const masters=['Алексей','Дмитрий','Максим'];
+const allT=['10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30'];
+const bkd={'Алексей':['11:00','13:30','15:00'],'Дмитрий':['10:30','14:00','18:00'],'Максим':['12:00','15:30']};
+let schSt={};
+function stL(st){return st==='ok'?'Подтверждено':st==='pend'?'Ожидает':'Отменено';}
+function initAd(){
+  const td=new Date().toLocaleDateString('ru-RU',{day:'2-digit',month:'long',year:'numeric'});
+  document.getElementById('td').textContent=td;
+  document.getElementById('tbl').innerHTML=mBk.map((b,i)=>'<div class="bki" id="bk'+i+'"><div class="bktime">'+b.t+'</div><div class="bkinfo"><div class="bkclient">'+b.cl+'</div><div class="bkdetail">'+b.ph+' · '+b.sv+'</div></div><div class="bkmaster">'+b.ms+'</div><div class="bkprice">'+b.pr+' ₽</div><div class="bkst '+b.st+'">'+stL(b.st)+'</div><button class="bkdel" onclick="delBk('+i+')">Отменить</button></div>').join('');
+  const days=['Сегодня','Завтра','Пт 30 мая','Сб 31 мая','Пн 2 июня'];
+  document.getElementById('wkl').innerHTML=days.map(day=>'<div style="font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin:14px 0 8px;">'+day+'</div>'+mBk.slice(0,Math.floor(Math.random()*3)+2).map(b=>'<div class="bki"><div class="bktime">'+b.t+'</div><div class="bkinfo"><div class="bkclient">'+b.cl+'</div><div class="bkdetail">'+b.sv+'</div></div><div class="bkmaster">'+b.ms+'</div><div class="bkprice">'+b.pr+' ₽</div><div class="bkst '+b.st+'">'+stL(b.st)+'</div></div>').join('')).join('');
+  masters.forEach(m=>{if(!schSt[m])schSt[m]={};allT.forEach(t=>{if(schSt[m][t]===undefined)schSt[m][t]='open';});});
+  document.getElementById('schg').innerHTML=masters.map(m=>'<div class="schm"><div class="schmn">'+m+'</div><div class="schsl">'+allT.map(t=>{const isB=(bkd[m]||[]).includes(t);const cls=isB?'booked':(schSt[m][t]==='closed'?'closed':'open');return '<div class="schst '+cls+'" onclick="togSlot(this,\''+m+'\',\''+t+'\')">'+t+'</div>';}).join('')+'</div></div>').join('');
+  document.getElementById('sved').innerHTML=svcs.map((s,i)=>'<div class="svcedr"><div class="svcedname">'+s.n+'</div><div><div class="svcedlbl">Цена ₽</div><input class="svcedinp" id="sp'+i+'" value="'+s.p+'" type="number" min="0" step="50"></div><div><div class="svcedlbl">Время мин</div><input class="svcedinp" id="sd'+i+'" value="'+s.d+'" type="number" min="15" step="15"></div></div>').join('');
+  document.getElementById('cll').innerHTML=mCl.map(c=>'<div class="clrow"><div class="clname">'+c.n+'</div><div class="clphone">'+c.p+'</div><div class="clvisits">'+c.v+' визитов</div><div class="clpts">'+c.pts+'</div><div class="cllevel">'+c.lv+'</div></div>').join('');
+}
+function delBk(i){const el=document.getElementById('bk'+i);if(el){el.style.opacity='.35';el.querySelector('.bkst').textContent='Отменено';el.querySelector('.bkst').className='bkst no';const d=el.querySelector('.bkdel');if(d)d.style.display='none';}}
+function togSlot(el,m,t){if(el.classList.contains('booked'))return;const op=el.classList.contains('open');el.className='schst '+(op?'closed':'open');schSt[m][t]=op?'closed':'open';}
+function saveSv(){svcs.forEach((s,i)=>{s.p=parseInt(document.getElementById('sp'+i).value)||s.p;s.d=parseInt(document.getElementById('sd'+i).value)||s.d;});const el=document.getElementById('svok');el.style.display='block';setTimeout(()=>el.style.display='none',2000);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeBook();closeAdmin();}});
+document.getElementById('adOv').onclick=e=>{if(e.target===document.getElementById('adOv'))closeAdmin();};
+</script>
+</body>
+</html>
+</button></div>
